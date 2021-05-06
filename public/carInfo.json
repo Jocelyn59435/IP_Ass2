@@ -1,0 +1,195 @@
+[{
+    "id": 1001,
+    "Category": "SUV",
+    "Availability": "Y",
+    "Brand": "Toyota",
+    "Model": "Klyger",
+    "Model Year": "2015",
+    "Color":"Grey",
+    "Mileage": "59939",
+    "Fuel type": "Petrol",
+    "Seats": "5",
+    "Price per day": "$180",
+    "Description": "This Toyota KLUGER is a one owner All Wheel Drive 7 Seater automatic with only 59000kms and original Toyota Stamped Log Books."
+},
+
+{
+    "id": 1002,
+    "Category": "sedan",
+    "Availability": "Y",
+    "Brand": "Toyota",
+    "Model": "Camry",
+    "Model Year": "2013",
+    "Color":"White",
+    "Mileage": "85364",
+    "Fuel type": "Petrol",
+    "Seats": "5",
+    "Price per day": "$240",
+    "Description": "The 2013 Toyota Camry's #7 ranking is based on its score within the 2013 Affordable Midsize Cars category. Currently the Toyota Camry has a score of 8.3 out of 10, which is based on our evaluation of 33 pieces of research and data elements using various sources."
+},
+
+{
+    "id": 1003,
+    "Category": "SUV",
+    "Availability": "Y",
+    "Brand": "Nissan",
+    "Model": "X-trail",
+    "Model Year": "2015",
+    "Color":"Grey",
+    "Mileage": "36782",
+    "Fuel type": "Petrol",
+    "Seats": "7",
+    "Price per day": "$360",
+    "Description": "Nissan's X-Trail SUV has undergone a metamorphosis in its latest guise, more focused on road behaviour than in-bush capabilities and more concerned about providing for passengers than cargo. "
+},
+
+{
+    "id": 1004,
+    "Category": "Wagon",
+    "Availability": "Y",
+    "Brand": "Volkswagen",
+    "Model": "Golf",
+    "Model Year": "2017",
+    "Color":"White",
+    "Mileage": "13586",
+    "Fuel type": "CNG",
+    "Seats": "5",
+    "Price per day": "$180",
+    "Description": "ntroduced in Australia in 1976 as a replacement for the classic Beetle, the Golf has undergone a series of growth spurts and facelifts to stay up-to-date and remain a viable option for Australian families."
+},
+
+{
+    "id": 1005,
+    "Category": "SUV",
+    "Availability": "N",
+    "Brand": "Honda",
+    "Model": "Civic",
+    "Model Year": "2018",
+    "Color": "Black",
+    "Mileage": "9586",
+    "Fuel type": "Petrol",
+    "Seats": "5",
+    "Price per day": "$220",
+    "Description": "The 2018 Civic is available in three body styles: a two-door coupe, a four-door sedan, and a four-door hatchback. All models have five seats except for the Type R, which seats four. "
+},
+
+{
+    "id": 1006,
+    "Category": "Sedan",
+    "Availability": "Y",
+    "Brand": "Mercedes-Benz",
+    "Model": "E-Class",
+    "Model Year": "2018",
+    "Color": "Black",
+    "Mileage": "9730",
+    "Fuel type": "Petrol",
+    "Seats": "5",
+    "Price per day": "$310",
+    "Description": "With the lineup nearly complete, our picks include the base E300 sedan, fully outfitted with safety gear; the plush E400 all-wheel-drive cabriolet, for every whim; and the amazing E 63 S wagon, because it reminds us how SUVs fall short in every dynamic way."
+},
+
+{
+    "id": 1007,
+    "Category": "Hatch",
+    "Availability": "Y",
+    "Brand": "Suzuki",
+    "Model": "Swift",
+    "Model Year": "2018",
+    "Color": "Blue",
+    "Mileage": "28244",
+    "Fuel type": "Petrol",
+    "Seats": "5",
+    "Price per day": "$250",
+    "Description": "2018 Suzuki Swift Sport Auto 1.4 Turbo 5 Door Hatch finished in a Electric Blue with Sports Seats , Alloys , Reverse camera , Keyless Start , Traveled only 28000 kms ,Buy with confidence from us as all of our vehicles are  inspected by our expert technicians and undergo a rigorous 110 mechanical safety inspection."
+},
+
+{
+    "id": 1008,
+    "Category": "SUV",
+    "Availability": "N",
+    "Brand": "Subaru",
+    "Model": "Forester",
+    "Model Year": "2017",
+    "Color": "Blue",
+    "Mileage": "32155",
+    "Fuel type": "Petrol",
+    "Seats": "5",
+    "Price per day": "$305",
+    "Description": "The Subaru Forester 2017 is available in Diesel, Regular Unleaded Petrol and Premium Unleaded Petrol. Engine sizes and transmissions vary from the SUV 2.5L Continuous Variable to the SUV 2.0L Continuous Variable."
+},
+
+{
+    "id": 1009,
+    "Category": "SUV",
+    "Availability": "N",
+    "Brand": "Volkswagen",
+    "Model": "Touareg",
+    "Model Year": "2017",
+    "Color": "Blue",
+    "Mileage": "27984",
+    "Fuel type": "Diesel",
+    "Seats": "5",
+    "Price per day": "$420",
+    "Description": "2017 MY18 Volkswagen Touareg Monchrome 3.0 Turbo Diesel AWD Wagon finished in Grey with Leather , Reverse Camera , Navigation , Alloys , Traveled only 100000 kms ,. Buy with confidence from us as all of our vehicles are inspected by our expert technicians and undergo a rigorous 110 mechanical safety inspection. "
+},
+
+{
+    "id": 1010,
+    "Category": "SUV",
+    "Availability": "Y",
+    "Brand": "Nissan",
+    "Model": "Qashqai",
+    "Model Year": "2017",
+    "Color": "White",
+    "Mileage": "39965",
+    "Fuel type": "Unleaded",
+    "Seats": "5",
+    "Price per day": "$285",
+    "Description": "2017 Nissan Qashqai ST Auto 2.0 Wagon finished in Blue with Alloys , Reverse Camera ,Bluetooth , Traveled only 53000 kms ,Buy with confidence from us as all of our vehicles are inspected by our expert technicians and undergo a rigorous 110 mechanical safety inspection."
+},
+
+{
+    "id": 1011,
+    "Category": "SUV",
+    "Availability": "N",
+    "Brand": "Audi",
+    "Model": "RS-Q3",
+    "Model Year": "2019",
+    "Color": "Grey",
+    "Mileage": "10564",
+    "Fuel type": "Petrol",
+    "Seats": "5",
+    "Price per day": "$399",
+    "Description": "Putting all the power to the ground via Audi's quattro permanent AWD system with dual-clutch, seven-speed S tronic transmission and featuring low-set sports suspension and mammoth 21-inch wheels, the RS Q3 gives no quarter. "
+},
+
+{
+    "id": 1012,
+    "Category": "Hatchbacks",
+    "Availability": "Y",
+    "Brand": "Kia",
+    "Model": "Picanto",
+    "Model Year": "2017",
+    "Color": "White",
+    "Mileage": "37821",
+    "Fuel type": "Petrol",
+    "Seats": "5",
+    "Price per day": "$255",
+    "Description": "Bright, bold and distinctive, Picanto is your way to stand out from the crowd - in cities, and beyond."
+},
+
+{
+    "id": 1013,
+    "Category": "Sedan",
+    "Availability": "Y",
+    "Brand": "Lexus",
+    "Model": "ES",
+    "Model Year": "2019",
+    "Color": "Red",
+    "Mileage": "15432",
+    "Fuel type": "Petrol",
+    "Seats": "5",
+    "Price per day": "$450",
+    "Description": "The Lexus 300h was given a five-star ANCAP rating when it was assessed in 2018. Standard safety equipment includes AEB with pedestrian and cyclist detection, lane keeping assistance, blind spot warning and road sign assistance."
+}
+]
