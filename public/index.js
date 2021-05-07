@@ -1,6 +1,6 @@
 // import {server} from "../server.js";
-const carInfoJSONLink = "http://127.0.0.1:8080/carInfo.json";
-const reservationLink = "http://127.0.0.1:8080/reservation";
+const carInfoJSONLink = "http://ass2-env.eba-3kpbddps.us-east-1.elasticbeanstalk.com/carInfo.json";
+const reservationLink = "http://ass2-env.eba-3kpbddps.us-east-1.elasticbeanstalk.com/reservation";
 // Render JSON file
 function renderJSON(JSONobject, i = 1) {
   let displayHTML = "";
@@ -43,7 +43,7 @@ function processAdd(passedID) {
         alert("Added to the cart successfully.");
       }
     };
-    xhttpQuery.open("GET", `http://127.0.0.1:8080/query?carModel=${passedID}`);
+    xhttpQuery.open("GET", `http://ass2-env.eba-3kpbddps.us-east-1.elasticbeanstalk.com/query?carModel=${passedID}`);
     xhttpQuery.send();
   } else {
     alert("Sorry, this car is not available now. Please try other cars.");
@@ -235,7 +235,7 @@ function processDelete(passedID) {
   let xhttpQuery = new XMLHttpRequest();
   xhttpQuery.open(
     "GET",
-    `http://127.0.0.1:8080/delete?deleteModel=${passedID}`
+    `http://ass2-env.eba-3kpbddps.us-east-1.elasticbeanstalk.com/delete?deleteModel=${passedID}`
   );
   xhttpQuery.send();
   if ($("tr").length == 1) {
