@@ -1,6 +1,6 @@
-const server = "http://localhost:3000" || "http://ass2-env.eba-3kpbddps.us-east-1.elasticbeanstalk.com"; 
+const server = "http://ass2-env.eba-3kpbddps.us-east-1.elasticbeanstalk.com"; 
 
-
+// "http://localhost:3000"
 
 // Render JSON file
 function renderJSON(JSONobject, i = 1) {
