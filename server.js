@@ -13,7 +13,7 @@ app.use(
     resave: true,
     saveUninitialized: false ,
     // maxAge: 1*60*60*1000,
-    cookie: { secure: false, maxAge: new Date(Date.now() + 1*60*60*1000)}
+    cookie: { secure: false, maxAge: 1*60*60*1000}
   })
 );
 
@@ -46,7 +46,7 @@ app.get("/checkout", function (req, res) {
 });
 
 // start the Express server
-const server = app.listen(port, () => {
+app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
 
