@@ -1,6 +1,7 @@
-// import {server} from "../server.js";
-const carInfoJSONLink = "http://ass2-env.eba-3kpbddps.us-east-1.elasticbeanstalk.com/carInfo.json";
-const reservationLink = "http://ass2-env.eba-3kpbddps.us-east-1.elasticbeanstalk.com/reservation";
+const server = "http://localhost:3000" || "http://ass2-env.eba-3kpbddps.us-east-1.elasticbeanstalk.com"; 
+
+
+
 // Render JSON file
 function renderJSON(JSONobject, i = 1) {
   let displayHTML = "";
@@ -42,7 +43,7 @@ function processAdd(passedID) {
         alert("Added to the cart successfully.");
       }
     };
-    xhttpQuery.open("GET", `http://ass2-env.eba-3kpbddps.us-east-1.elasticbeanstalk.com/query?carModel=${passedID}`);
+    xhttpQuery.open("GET", `${server}/query?carModel=${passedID}`);
     xhttpQuery.send();
   } else {
     alert("Sorry, this car is not available now. Please try other cars.");
@@ -85,7 +86,7 @@ xhttpOne.onreadystatechange = function () {
     setPages(carInfoObject);
   }
 };
-xhttpOne.open("GET", carInfoJSONLink);
+xhttpOne.open("GET", server + "/carInfo.json");
 xhttpOne.send();
 
 // when input box changed rerender displayContainer
@@ -103,7 +104,7 @@ $("input").on("change", function () {
         setPages(carInfoObject);
       }
     };
-    xhttpTwo.open("GET", carInfoJSONLink);
+    xhttpTwo.open("GET", server + "/carInfo.json");
     xhttpTwo.send();
   }
   // if there is at least one checked box, merge filterList according to Color, Availability and Category
@@ -152,7 +153,7 @@ $("input").on("change", function () {
         setPages(filteredListUnique);
       }
     };
-    xhttp.open("GET", carInfoJSONLink);
+    xhttp.open("GET", server + "/carInfo.json");
     xhttp.send();
   }
 });
@@ -177,11 +178,11 @@ $("#checkReservation").on("click", function () {
           RenderReservation(carToRender);
         }
       };
-      xhttpGetJSON.open("GET", carInfoJSONLink);
+      xhttpGetJSON.open("GET", server + "/carInfo.json");
       xhttpGetJSON.send();
     }
   };
-  xhttpGetSession.open("GET", reservationLink);
+  xhttpGetSession.open("GET", server + "/reserveation");
   xhttpGetSession.send();
 });
 
@@ -234,7 +235,7 @@ function processDelete(passedID) {
   let xhttpQuery = new XMLHttpRequest();
   xhttpQuery.open(
     "GET",
-    `http://ass2-env.eba-3kpbddps.us-east-1.elasticbeanstalk.com/delete?deleteModel=${passedID}`
+    `${server}/delete?deleteModel=${passedID}`
   );
   xhttpQuery.send();
   if ($("tr").length == 1) {
