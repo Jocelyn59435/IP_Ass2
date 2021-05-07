@@ -35,7 +35,6 @@ function processAdd(passedID) {
   let Availability = $($("#" + passedID).find("li")[5]).text();
   let Info = Availability.split(":")[1].trim();
   console.log(Info);
-  console.log(server);
   if (Info == "Y") {
     let xhttpQuery = new XMLHttpRequest();
     xhttpQuery.onreadystatechange = function () {
