@@ -1,5 +1,6 @@
-const carInfoJSONLink = "http://localhost:3000/carInfo.json";
-const reservationLink = "http://localhost:3000/reservation";
+// import {server} from "../server.js";
+const carInfoJSONLink = "http://127.0.0.1:8080/carInfo.json";
+const reservationLink = "http://127.0.0.1:8080/reservation";
 // Render JSON file
 function renderJSON(JSONobject, i = 1) {
   let displayHTML = "";
@@ -34,6 +35,7 @@ function processAdd(passedID) {
   let Availability = $($("#" + passedID).find("li")[5]).text();
   let Info = Availability.split(":")[1].trim();
   console.log(Info);
+  console.log(server);
   if (Info == "Y") {
     let xhttpQuery = new XMLHttpRequest();
     xhttpQuery.onreadystatechange = function () {
@@ -41,7 +43,7 @@ function processAdd(passedID) {
         alert("Added to the cart successfully.");
       }
     };
-    xhttpQuery.open("GET", `http://localhost:3000/query?carModel=${passedID}`);
+    xhttpQuery.open("GET", `http://127.0.0.1:8080/query?carModel=${passedID}`);
     xhttpQuery.send();
   } else {
     alert("Sorry, this car is not available now. Please try other cars.");
@@ -233,7 +235,7 @@ function processDelete(passedID) {
   let xhttpQuery = new XMLHttpRequest();
   xhttpQuery.open(
     "GET",
-    `http://localhost:3000/delete?deleteModel=${passedID}`
+    `http://127.0.0.1:8080/delete?deleteModel=${passedID}`
   );
   xhttpQuery.send();
   if ($("tr").length == 1) {

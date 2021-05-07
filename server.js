@@ -46,6 +46,8 @@ app.get("/checkout", function (req, res) {
 });
 
 // start the Express server
-app.listen(port, () => {
-  console.log(`Server started at http://localhost:${port}`);
+const server = app.listen(port, () => {
+  console.log(`Server started on port ${port}`);
 });
+
+// module.exports = server;
