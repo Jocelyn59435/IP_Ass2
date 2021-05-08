@@ -6,7 +6,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.static("public"));
 
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(
   session({
     secret: "keyboard cat",

@@ -1,5 +1,7 @@
 const server = "http://ass2-env.eba-3kpbddps.us-east-1.elasticbeanstalk.com";
 // "http://localhost:3000"
+
+
 // Render JSON file
 function renderJSON(JSONobject, i = 1) {
   let displayHTML = "";
@@ -30,10 +32,8 @@ function renderJSON(JSONobject, i = 1) {
 
 // When "Add to Cart" btn on clicked,
 function processAdd(passedID) {
-  console.log(passedID);
   let Availability = $($("#" + passedID).find("li")[5]).text();
   let Info = Availability.split(":")[1].trim();
-  console.log(Info);
   if (Info == "Y") {
     let xhttpQuery = new XMLHttpRequest();
     xhttpQuery.onreadystatechange = function () {
@@ -119,36 +119,29 @@ $("input").on("change", function () {
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         let carInfoObject = JSON.parse(this.responseText);
-        let filteredByColor = [];
-        let filteredByAvailability = [];
-        let filteredByCategory = [];
-        let filteredList = [];
-        if (Reflect.has(filterListMerged, "Color")) {
-          filteredByColor = carInfoObject.filter((car) =>
-            filterListMerged.Color.includes(car.Color)
-          );
+        let filteredResult = carInfoObject.filter(function (car) {
+          let matched = true;
+          let keyList = Object.keys(car);
+          console.log(Object.keys(car));
+          for (let index in keyList) {
+            let key = keyList[index];
+            if (Reflect.has(filterListMerged, key)) {
+              matched = filterListMerged[key].includes(car[key]);
+              if(matched == false){
+                break;
+              }
+            } else {
+              continue;
+            }
+          }
+          return matched;
+        });
+        if (filteredResult.length == 0){
+          document.getElementById("displayContainer").innerHTML = `<h3>Sorry, we couldn't find any results.</h3>`;
+        }else{
+        renderJSON(filteredResult);
+        setPages(filteredResult);
         }
-        if (Reflect.has(filterListMerged, "Availability")) {
-          filteredByAvailability = carInfoObject.filter((car) =>
-            filterListMerged.Availability.includes(car.Availability)
-          );
-        }
-        if (Reflect.has(filterListMerged, "Category")) {
-          filteredByCategory = carInfoObject.filter((car) =>
-            filterListMerged.Category.includes(car.Category)
-          );
-        }
-        filteredList = filteredList.concat(
-          filteredByColor,
-          filteredByAvailability,
-          filteredByCategory
-        );
-        // remove duplicate item in the filteredList
-        let filteredListUnique = filteredList.filter(
-          (item, index) => filteredList.indexOf(item) === index
-        );
-        renderJSON(filteredListUnique);
-        setPages(filteredListUnique);
       }
     };
     xhttp.open("GET", `${server}/carInfo.json`);
@@ -224,17 +217,13 @@ function RenderReservation(JSONobject) {
      </div>`;
 }
 
-
 var totalCost = 0;
 
 // when delete btn onclicked, delete corresponding row, and pop the id out from session.cart
 function processDelete(passedID) {
   $("#" + passedID + "_row").remove();
   let xhttpQuery = new XMLHttpRequest();
-  xhttpQuery.open(
-    "GET",
-    `${server}/delete?deleteModel=${passedID}`
-  );
+  xhttpQuery.open("GET", `${server}/delete?deleteModel=${passedID}`);
   xhttpQuery.send();
   if ($("tr").length == 1) {
     document.getElementById(
@@ -263,7 +252,6 @@ function processCheckOut() {
     alert("Sorry, the maximum is 100.");
     return;
   }
-
 
   // get the amount of total cost
   let checkOutInfo = $("#reservationForm").serializeArray();
@@ -391,39 +379,38 @@ function refreshPage() {
   window.location.reload();
 }
 
-function processBooking(){
-
+function processBooking() {
   // validate input
 
-  if ($('#fname').val() == ''){
-    alert('Please enter your first name.');
+  if ($("#fname").val() == "") {
+    alert("Please enter your first name.");
     return;
   }
 
-  if ($('#lname').val() == ''){
-    alert('Please enter your last name.');
+  if ($("#lname").val() == "") {
+    alert("Please enter your last name.");
     return;
   }
 
-  let email = $('#email').val();
+  let email = $("#email").val();
   let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  if (regexEmail.test(email) == false){
-    alert('Wrong email address.');
+  if (regexEmail.test(email) == false) {
+    alert("Wrong email address.");
     return;
   }
 
-  if ($('#addressOne').val() == ''){
-    alert('Please enter your address.');
+  if ($("#addressOne").val() == "") {
+    alert("Please enter your address.");
     return;
   }
 
-  if ($('#city').val() == ''){
-    alert('Please enter your city.');
+  if ($("#city").val() == "") {
+    alert("Please enter your city.");
     return;
   }
 
-  if ($('#postcode').val() == ''){
-    alert('Please enter your post code.');
+  if ($("#postcode").val() == "") {
+    alert("Please enter your post code.");
     return;
   }
 
@@ -451,7 +438,7 @@ function processBooking(){
   </table>
 
   <h3>Have a good day.</h3>
-  `
+  `;
 
   document.getElementById("firstContainer").innerHTML = displayHTML;
 }
