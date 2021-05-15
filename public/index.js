@@ -1,6 +1,6 @@
-const server = "http://ass2-env.eba-3kpbddps.us-east-1.elasticbeanstalk.com";
-// "http://localhost:3000"
+// const server = "http://localhost:5000";
 
+const server =  "http://ass2-env.eba-3kpbddps.us-east-1.elasticbeanstalk.com";
 
 // Render JSON file
 function renderJSON(JSONobject, i = 1) {
@@ -32,17 +32,15 @@ function renderJSON(JSONobject, i = 1) {
 
 // When "Add to Cart" btn on clicked,
 function processAdd(passedID) {
-  let Availability = $($("#" + passedID).find("li")[5]).text();
-  let Info = Availability.split(":")[1].trim();
-  if (Info == "Y") {
-    let xhttpQuery = new XMLHttpRequest();
-    xhttpQuery.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        alert("Added to the cart successfully.");
-      }
-    };
-    xhttpQuery.open("GET", `${server}/query?carModel=${passedID}`);
-    xhttpQuery.send();
+  let availability = $($("#" + passedID).find("li")[5]).text();
+  let info = availability.split(":")[1].trim();
+  if (info == "Y") {
+    fetch(`${server}/query?carModel=${passedID}`)
+      .then((response) => response.text())
+      .then((response) => {
+        alert(response);
+      })
+      .catch((error) => console.log(error));
   } else {
     alert("Sorry, this car is not available now. Please try other cars.");
   }
@@ -76,34 +74,27 @@ function setPages(JSONobject) {
 }
 
 // send request to get and render JSON file
-let xhttpOne = new XMLHttpRequest();
-xhttpOne.onreadystatechange = function () {
-  if (this.readyState == 4 && this.status == 200) {
-    let carInfoObject = JSON.parse(this.responseText);
-    renderJSON(carInfoObject);
-    setPages(carInfoObject);
-  }
+
+const renderCarInfo = () => {
+  fetch(`${server}/carInfo.json`)
+    .then((response) => response.json())
+    .then((response) => {
+      renderJSON(response);
+      setPages(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
-xhttpOne.open("GET", `${server}/carInfo.json`);
-xhttpOne.send();
+renderCarInfo();
 
 // when input box changed rerender displayContainer
 $("input").on("change", function () {
   let filterList = $("form").serializeArray();
   let filterListMerged = {};
-  let filteredList = [];
   // empty filterList means no checked box, just render all car items
   if (filterList.length == 0) {
-    let xhttpTwo = new XMLHttpRequest();
-    xhttpTwo.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        let carInfoObject = JSON.parse(this.responseText);
-        renderJSON(carInfoObject);
-        setPages(carInfoObject);
-      }
-    };
-    xhttpTwo.open("GET", `${server}/carInfo.json`);
-    xhttpTwo.send();
+    renderCarInfo();
   }
   // if there is at least one checked box, merge filterList according to Color, Availability and Category
   // then send request, get and filter carInfoObject according to filterListMerged
@@ -115,19 +106,18 @@ $("input").on("change", function () {
         filterListMerged[listItem.name] = [listItem.value];
       }
     });
-    let xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        let carInfoObject = JSON.parse(this.responseText);
-        let filteredResult = carInfoObject.filter(function (car) {
+
+    fetch(`${server}/carInfo.json`)
+      .then((response) => response.json())
+      .then((response) => {
+        let filteredResult = response.filter(function (car) {
           let matched = true;
           let keyList = Object.keys(car);
-          console.log(Object.keys(car));
           for (let index in keyList) {
             let key = keyList[index];
             if (Reflect.has(filterListMerged, key)) {
               matched = filterListMerged[key].includes(car[key]);
-              if(matched == false){
+              if (matched == false) {
                 break;
               }
             } else {
@@ -136,16 +126,18 @@ $("input").on("change", function () {
           }
           return matched;
         });
-        if (filteredResult.length == 0){
-          document.getElementById("displayContainer").innerHTML = `<h3>Sorry, we couldn't find any results.</h3>`;
-        }else{
-        renderJSON(filteredResult);
-        setPages(filteredResult);
+        if (filteredResult.length == 0) {
+          document.getElementById(
+            "displayContainer"
+          ).innerHTML = `<h3>Sorry, we couldn't find any results.</h3>`;
+        } else {
+          renderJSON(filteredResult);
+          setPages(filteredResult);
         }
-      }
-    };
-    xhttp.open("GET", `${server}/carInfo.json`);
-    xhttp.send();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 });
 
@@ -159,25 +151,27 @@ $("#checkReservation").on("click", function () {
         alert("Please add a car.");
         return;
       }
-      let xhttpGetJSON = new XMLHttpRequest();
-      xhttpGetJSON.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          let carInfoObject = JSON.parse(this.responseText);
-          let carToRender = carInfoObject.filter((car) =>
-            sessionInfo.includes(car.id)
-          );
-          RenderReservation(carToRender);
-        }
+      const getReservation = () => {
+        fetch(`${server}/carInfo.json`)
+          .then((response) => response.json())
+          .then((response) => {
+            let carToRender = response.filter((car) =>
+              sessionInfo.includes(car.id)
+            );
+            renderReservation(carToRender);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       };
-      xhttpGetJSON.open("GET", `${server}/carInfo.json`);
-      xhttpGetJSON.send();
+      getReservation();
     }
   };
   xhttpGetSession.open("GET", `${server}/reservation`);
   xhttpGetSession.send();
 });
 
-function RenderReservation(JSONobject) {
+function renderReservation(JSONobject) {
   let displayHTML = "";
   JSONobject.map(function (car) {
     displayHTML += `<tr id= ${car.id}_row >
@@ -217,14 +211,13 @@ function RenderReservation(JSONobject) {
      </div>`;
 }
 
+// initialize a global variable which can pass to another function scope(dirty)
 var totalCost = 0;
 
 // when delete btn onclicked, delete corresponding row, and pop the id out from session.cart
 function processDelete(passedID) {
   $("#" + passedID + "_row").remove();
-  let xhttpQuery = new XMLHttpRequest();
-  xhttpQuery.open("GET", `${server}/delete?deleteModel=${passedID}`);
-  xhttpQuery.send();
+  fetch(`${server}/delete?deleteModel=${passedID}`);
   if ($("tr").length == 1) {
     document.getElementById(
       "emptyNotice"
@@ -237,7 +230,7 @@ function processCheckOut() {
   let isValidate = true;
   let isExceeded = true;
   $("input").each(function () {
-    if ($(this).val() < 0 || $(this).val() == "") {
+    if ($(this).val() <= 0 || $(this).val() == "") {
       isValidate = false;
     }
     if ($(this).val() > 100) {
@@ -381,7 +374,6 @@ function refreshPage() {
 
 function processBooking() {
   // validate input
-
   if ($("#fname").val() == "") {
     alert("Please enter your first name.");
     return;
@@ -413,11 +405,9 @@ function processBooking() {
     alert("Please enter your post code.");
     return;
   }
-
+  fetch(`${server}/clearcart`);
   let bookingInfo = $("#checkoutForm").serializeArray();
-  console.log(bookingInfo[0]);
-  console.log(totalCost);
-  let displayHTML = `
+  let displayHTML = `<div id = bookingInfo>
   <h3>Hi ${bookingInfo[0]["value"]}, your booking has been received.</h3>
   <h3>Below is your booking information:</h3>
   <table id=bookingTable>
@@ -437,7 +427,7 @@ function processBooking() {
     </tr>
   </table>
 
-  <h3>Have a good day.</h3>
+  <h3>Have a good day.</h3></div>
   `;
 
   document.getElementById("firstContainer").innerHTML = displayHTML;

@@ -1,18 +1,15 @@
 const express = require("express");
 const session = require("express-session");
-const cookieParser = require('cookie-parser');
 const app = express();
+// const port = 5000;
 const port = process.env.PORT || 3000;
-
 app.use(express.static("public"));
 
-// app.use(cookieParser());
 app.use(
   session({
     secret: "keyboard cat",
     resave: true,
     saveUninitialized: false ,
-    // maxAge: 1*60*60*1000,
     cookie: { secure: false, maxAge: 1*60*60*1000}
   })
 );
@@ -27,7 +24,7 @@ app.get("/query", function (req, res) {
     req.session.cart.push(modelID);
   }
   console.log(req.session.cart);
-  res.end();
+  res.send("Added to the cart successfully.");
 });
 
 app.get("/delete", function (req, res) {
@@ -43,6 +40,10 @@ app.get("/reservation", function (req, res) {
 
 app.get("/checkout", function (req, res) {
   res.send(req.query);
+});
+
+app.get("/clearcart", function (req, res) {
+  req.session.destroy();
 });
 
 // start the Express server

@@ -295,9 +295,12 @@ label {
   text-align: center;
   table-layout: fixed;
   border-collapse: collapse;
-  font-family: var(--font-subtitle);
+  font-family: var(--font-title);
 }
 
+#bookingInfo{
+  padding: 1.5rem;
+}
 
 /* responsive */
 @media only screen and (max-width: 1220px) {
