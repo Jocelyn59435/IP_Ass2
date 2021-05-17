@@ -279,6 +279,18 @@ label {
   margin-right: 1rem;
 }
 
+.redirect{
+  background: var(--background);
+  border-radius: 20px;
+  cursor: pointer;
+  color: var(--text);
+  border: 2px solid var(--background);
+  font-size: 1rem;
+  float: right;
+  min-height: 100%;
+  margin-right: 2rem;
+}
+
 /* Clear floats after the columns */
 .row:after {
   content: "";

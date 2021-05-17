@@ -143,19 +143,18 @@ $("input").on("change", function () {
 
 // When CheckOut btn onclicked, render reservation page
 $("#checkReservation").on("click", function () {
-  let xhttpGetSession = new XMLHttpRequest();
-  xhttpGetSession.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      let sessionInfo = this.responseText;
-      if (sessionInfo == []) {
+  fetch(`${server}/reservation`)
+    .then((sessionInfo) => sessionInfo.text())
+    .then((sessionInfo) => {
+      if (sessionInfo.length == 2 || sessionInfo.length == 0) {
         alert("Please add a car.");
         return;
       }
       const getReservation = () => {
         fetch(`${server}/carInfo.json`)
-          .then((response) => response.json())
-          .then((response) => {
-            let carToRender = response.filter((car) =>
+          .then((cars) => cars.json())
+          .then((cars) => {
+            let carToRender = cars.filter((car) =>
               sessionInfo.includes(car.id)
             );
             renderReservation(carToRender);
@@ -165,10 +164,10 @@ $("#checkReservation").on("click", function () {
           });
       };
       getReservation();
-    }
-  };
-  xhttpGetSession.open("GET", `${server}/reservation`);
-  xhttpGetSession.send();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
 function renderReservation(JSONobject) {
@@ -178,9 +177,7 @@ function renderReservation(JSONobject) {
                         <td><img src = ./CarImg/${
                           car.Model
                         }.png alt = car Image /></td>
-                        <td>${car.Brand} - ${car.Model} - ${
-      car["Model Year"]
-    }</td>
+                        <td>${car.Brand} - ${car.Model} - ${car["Model Year"]}</td>
                         <td>${car["Price per day"]}</td>
                         <td><input type = "number" name = "${
                           car["Price per day"].split("$")[1]
@@ -204,11 +201,14 @@ function renderReservation(JSONobject) {
      </tr>` +
     displayHTML +
     `
-     
      </table></form>
      <button id = checkOut onclick = processCheckOut() ><span>Proceeding to CheckOut</span></button>
      </tr>
      </div>`;
+}
+
+function redirect() {
+  window.location.href = server;
 }
 
 // initialize a global variable which can pass to another function scope(dirty)
@@ -221,11 +221,16 @@ function processDelete(passedID) {
   if ($("tr").length == 1) {
     document.getElementById(
       "emptyNotice"
-    ).innerHTML = `<p>Please refresh the page and choose a car.</p>`;
+    ).innerHTML = `<p>No car has been reserved.</p><button class = redirect onclick = redirect()><span>Continue Selection</span></button>`;
   }
 }
 
 function processCheckOut() {
+  if ($("tr").length == 1) {
+    document.getElementById(
+      "emptyNotice"
+    ).innerHTML = `<p>No car has been reserved.</p><button class = redirect onclick = redirect()><span>Continue Selection</span></button>`;
+  }
   // check input value
   let isValidate = true;
   let isExceeded = true;
@@ -354,22 +359,16 @@ function processCheckOut() {
       <div class="row">
         <h3>You are required to pay $${totalCost}</h3>
       </div>
-
-      
     </form>
 
     <div class="row">
       <button id = booking onclick = processBooking()><span>Booking</span></button>
-      <button id = continue onclick = refreshPage()><span>Continue Selection</span></button>
+      <button id = continue onclick = redirect()><span>Continue Selection</span></button>
     </div>
 
   </div>
   `;
   document.getElementById("firstContainer").innerHTML = displayHTML;
-}
-
-function refreshPage() {
-  window.location.reload();
 }
 
 function processBooking() {
@@ -407,27 +406,28 @@ function processBooking() {
   }
   fetch(`${server}/clearcart`);
   let bookingInfo = $("#checkoutForm").serializeArray();
-  let displayHTML = `<div id = bookingInfo>
-  <h3>Hi ${bookingInfo[0]["value"]}, your booking has been received.</h3>
-  <h3>Below is your booking information:</h3>
-  <table id=bookingTable>
-    <tr>
-      <th>Address</th>
-      <td>${bookingInfo[3]["value"]} ${bookingInfo[4]["value"]} ${bookingInfo[5]["value"]} ${bookingInfo[6]["value"]} ${bookingInfo[7]["value"]}</td>   
-    </tr>
-    
-    <tr>
-      <th>Total Cost</th>
-      <td>$${totalCost}</td>   
-    </tr>
+  let displayHTML = `
+  <div id = bookingInfo>
+    <h3>Hi ${bookingInfo[0]["value"]}, your booking has been received.</h3>
+    <h3>Below is your booking information:</h3>
+    <table id=bookingTable>
+      <tr>
+        <th>Address</th>
+        <td>${bookingInfo[3]["value"]} ${bookingInfo[4]["value"]} ${bookingInfo[5]["value"]} ${bookingInfo[6]["value"]} ${bookingInfo[7]["value"]}</td>   
+      </tr>
+      
+      <tr>
+        <th>Total Cost</th>
+        <td>$${totalCost}</td>   
+      </tr>
 
-    <tr>
-      <th>Payment</th>
-      <td>${bookingInfo[8]["value"]}</td>   
-    </tr>
-  </table>
-
-  <h3>Have a good day.</h3></div>
+      <tr>
+        <th>Payment</th>
+        <td>${bookingInfo[8]["value"]}</td>   
+      </tr>
+    </table>
+    <h3>Have a good day.</h3>
+  </div>
   `;
 
   document.getElementById("firstContainer").innerHTML = displayHTML;
