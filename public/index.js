@@ -35,7 +35,7 @@ function renderJSON(JSONobject, i = 1) {
 function processAdd(passedID) {
   let availability = $($('#' + passedID).find('li')[6]).text();
   let info = availability.split(':')[1].trim();
-  if (info == 'Y') {
+  if (info === 'Y') {
     fetch(`${server}/query?carModel=${passedID}`)
       .then((response) => response.text())
       .then((response) => {
@@ -51,7 +51,7 @@ function processAdd(passedID) {
 function addSeeMore(element) {
   let seeMoreBtn = $('#' + element.id);
   seeMoreBtn.prev().toggleClass('collapsed');
-  if (seeMoreBtn.html() == 'See more') {
+  if (seeMoreBtn.html() === 'See more') {
     seeMoreBtn.html('Collapse');
   } else {
     seeMoreBtn.html('See more');
@@ -94,7 +94,7 @@ $('input').on('change', function () {
   let filterList = $('form').serializeArray();
   let filterListMerged = {};
   // empty filterList means no checked box, just render all car items
-  if (filterList.length == 0) {
+  if (filterList.length === 0) {
     renderCarInfo();
   }
   // if there is at least one checked box, merge filterList according to Color, Availability and Category
@@ -118,7 +118,7 @@ $('input').on('change', function () {
             let key = keyList[index];
             if (Reflect.has(filterListMerged, key)) {
               matched = filterListMerged[key].includes(car[key]);
-              if (matched == false) {
+              if (matched === false) {
                 break;
               }
             } else {
@@ -127,7 +127,7 @@ $('input').on('change', function () {
           }
           return matched;
         });
-        if (filteredResult.length == 0) {
+        if (filteredResult.length === 0) {
           document.getElementById(
             'displayContainer'
           ).innerHTML = `<h3>Sorry, we couldn't find any results.</h3>`;
@@ -147,7 +147,7 @@ $('#checkReservation').on('click', function () {
   fetch(`${server}/reservation`)
     .then((sessionInfo) => sessionInfo.text())
     .then((sessionInfo) => {
-      if (sessionInfo.length == 2 || sessionInfo.length == 0) {
+      if (sessionInfo.length === 2 || sessionInfo.length === 0) {
         alert('Please add a car.');
         return;
       }
@@ -221,7 +221,7 @@ var totalCost = 0;
 function processDelete(passedID) {
   $('#' + passedID + '_row').remove();
   fetch(`${server}/delete?deleteModel=${passedID}`);
-  if ($('tr').length == 1) {
+  if ($('tr').length === 1) {
     document.getElementById(
       'emptyNotice'
     ).innerHTML = `<p>No car has been reserved.</p><button class = redirect onclick = redirect()><span>Continue Selection</span></button>`;
@@ -229,7 +229,7 @@ function processDelete(passedID) {
 }
 
 function processCheckOut() {
-  if ($('tr').length == 1) {
+  if ($('tr').length === 1) {
     document.getElementById(
       'emptyNotice'
     ).innerHTML = `<p>No car has been reserved.</p><button class = redirect onclick = redirect()><span>Continue Selection</span></button>`;
@@ -238,7 +238,7 @@ function processCheckOut() {
   let isValidate = true;
   let isExceeded = true;
   $('input').each(function () {
-    if ($(this).val() <= 0 || $(this).val() == '') {
+    if ($(this).val() <= 0 || $(this).val() === '') {
       isValidate = false;
     }
     if ($(this).val() > 100) {
@@ -376,34 +376,34 @@ function processCheckOut() {
 
 function processBooking() {
   // validate input
-  if ($('#fname').val() == '') {
+  if ($('#fname').val() === '') {
     alert('Please enter your first name.');
     return;
   }
 
-  if ($('#lname').val() == '') {
+  if ($('#lname').val() === '') {
     alert('Please enter your last name.');
     return;
   }
 
   let email = $('#email').val();
   let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  if (regexEmail.test(email) == false) {
+  if (regexEmail.test(email) === false) {
     alert('Wrong email address.');
     return;
   }
 
-  if ($('#addressOne').val() == '') {
+  if ($('#addressOne').val() === '') {
     alert('Please enter your address.');
     return;
   }
 
-  if ($('#city').val() == '') {
+  if ($('#city').val() === '') {
     alert('Please enter your city.');
     return;
   }
 
-  if ($('#postcode').val() == '') {
+  if ($('#postcode').val() === '') {
     alert('Please enter your post code.');
     return;
   }
