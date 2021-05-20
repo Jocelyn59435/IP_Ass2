@@ -1,10 +1,10 @@
-// const server = "http://localhost:5000";
+const server = 'http://localhost:5000';
 
-const server =  "http://ass2xinxin.us-east-1.elasticbeanstalk.com";
+// const server =  "http://ass2xinxin.us-east-1.elasticbeanstalk.com";
 
 // Render JSON file
 function renderJSON(JSONobject, i = 1) {
-  let displayHTML = "";
+  let displayHTML = '';
   let itemStart = i * 6 - 6;
   let itemEnd = i * 6;
   let JSONobjectSliced = JSONobject.slice(itemStart, itemEnd);
@@ -13,10 +13,11 @@ function renderJSON(JSONobject, i = 1) {
                     <div class = carItem id = ${car.id} >
                       <ul>
                         <li><img src = ./CarImg/${car.Model}.png alt = car Image /></li>
-                        <li><h3>${car.Brand} - ${car.Model} - ${car["Model Year"]}</h3></li>
+                        <li><h3>${car.Brand} - ${car.Model} - ${car['Model Year']}</h3></li>
                         <li><span>Mileage: </span>${car.Mileage} kms</li>
+                        <li><span>Fuel Type: </span>${car['Fuel type']}</li>
                         <li><span>Seats: </span>${car.Seats}</li>
-                        <li><span>Price per day: </span>${car["Price per day"]}</li>
+                        <li><span>Price per day: </span>${car['Price per day']}</li>
                         <li><span>Availability: </span>${car.Availability}</li>
                         <li>
                            <div class = "description collapsed" ><span>Description: </span>${car.Description}</div>
@@ -27,14 +28,14 @@ function renderJSON(JSONobject, i = 1) {
                     </div>
                     `;
   });
-  document.getElementById("displayContainer").innerHTML = displayHTML;
+  document.getElementById('displayContainer').innerHTML = displayHTML;
 }
 
 // When "Add to Cart" btn on clicked,
 function processAdd(passedID) {
-  let availability = $($("#" + passedID).find("li")[5]).text();
-  let info = availability.split(":")[1].trim();
-  if (info == "Y") {
+  let availability = $($('#' + passedID).find('li')[6]).text();
+  let info = availability.split(':')[1].trim();
+  if (info == 'Y') {
     fetch(`${server}/query?carModel=${passedID}`)
       .then((response) => response.text())
       .then((response) => {
@@ -42,32 +43,32 @@ function processAdd(passedID) {
       })
       .catch((error) => console.log(error));
   } else {
-    alert("Sorry, this car is not available now. Please try other cars.");
+    alert('Sorry, this car is not available now. Please try other cars.');
   }
 }
 
 // add seeMore button
 function addSeeMore(element) {
-  let seeMoreBtn = $("#" + element.id);
-  seeMoreBtn.prev().toggleClass("collapsed");
-  if (seeMoreBtn.html() == "See more") {
-    seeMoreBtn.html("Collapse");
+  let seeMoreBtn = $('#' + element.id);
+  seeMoreBtn.prev().toggleClass('collapsed');
+  if (seeMoreBtn.html() == 'See more') {
+    seeMoreBtn.html('Collapse');
   } else {
-    seeMoreBtn.html("See more");
+    seeMoreBtn.html('See more');
   }
 }
 
 // add pages
 function setPages(JSONobject) {
   let pageNumber = Math.ceil(JSONobject.length / 6);
-  let pageHtml = "";
+  let pageHtml = '';
   for (let i = 1; i <= pageNumber; i++) {
     pageHtml += `<button type="button" id = page${i} >${i}</button>`;
   }
-  $("#pageContainer").html(pageHtml);
+  $('#pageContainer').html(pageHtml);
 
   for (let i = 1; i <= pageNumber; i++) {
-    $("#" + "page" + i).on("click", function () {
+    $('#' + 'page' + i).on('click', function () {
       renderJSON(JSONobject, i);
     });
   }
@@ -89,8 +90,8 @@ const renderCarInfo = () => {
 renderCarInfo();
 
 // when input box changed rerender displayContainer
-$("input").on("change", function () {
-  let filterList = $("form").serializeArray();
+$('input').on('change', function () {
+  let filterList = $('form').serializeArray();
   let filterListMerged = {};
   // empty filterList means no checked box, just render all car items
   if (filterList.length == 0) {
@@ -128,7 +129,7 @@ $("input").on("change", function () {
         });
         if (filteredResult.length == 0) {
           document.getElementById(
-            "displayContainer"
+            'displayContainer'
           ).innerHTML = `<h3>Sorry, we couldn't find any results.</h3>`;
         } else {
           renderJSON(filteredResult);
@@ -142,12 +143,12 @@ $("input").on("change", function () {
 });
 
 // When CheckOut btn onclicked, render reservation page
-$("#checkReservation").on("click", function () {
+$('#checkReservation').on('click', function () {
   fetch(`${server}/reservation`)
     .then((sessionInfo) => sessionInfo.text())
     .then((sessionInfo) => {
       if (sessionInfo.length == 2 || sessionInfo.length == 0) {
-        alert("Please add a car.");
+        alert('Please add a car.');
         return;
       }
       const getReservation = () => {
@@ -171,16 +172,18 @@ $("#checkReservation").on("click", function () {
 });
 
 function renderReservation(JSONobject) {
-  let displayHTML = "";
+  let displayHTML = '';
   JSONobject.map(function (car) {
     displayHTML += `<tr id= ${car.id}_row >
                         <td><img src = ./CarImg/${
                           car.Model
                         }.png alt = car Image /></td>
-                        <td>${car.Brand} - ${car.Model} - ${car["Model Year"]}</td>
-                        <td>${car["Price per day"]}</td>
+                        <td>${car.Brand} - ${car.Model} - ${
+      car['Model Year']
+    }</td>
+                        <td>${car['Price per day']}</td>
                         <td><input type = "number" name = "${
-                          car["Price per day"].split("$")[1]
+                          car['Price per day'].split('$')[1]
                         }" ></td>
                         <td><button onclick = processDelete(${
                           car.id
@@ -188,7 +191,7 @@ function renderReservation(JSONobject) {
                     </tr>
                   `;
   });
-  document.getElementById("firstContainer").innerHTML =
+  document.getElementById('firstContainer').innerHTML =
     `<h1 id = reservationHeader>Car Reservation</h1>
      <div id = emptyNotice>
      <form id = "reservationForm"><table>
@@ -216,26 +219,26 @@ var totalCost = 0;
 
 // when delete btn onclicked, delete corresponding row, and pop the id out from session.cart
 function processDelete(passedID) {
-  $("#" + passedID + "_row").remove();
+  $('#' + passedID + '_row').remove();
   fetch(`${server}/delete?deleteModel=${passedID}`);
-  if ($("tr").length == 1) {
+  if ($('tr').length == 1) {
     document.getElementById(
-      "emptyNotice"
+      'emptyNotice'
     ).innerHTML = `<p>No car has been reserved.</p><button class = redirect onclick = redirect()><span>Continue Selection</span></button>`;
   }
 }
 
 function processCheckOut() {
-  if ($("tr").length == 1) {
+  if ($('tr').length == 1) {
     document.getElementById(
-      "emptyNotice"
+      'emptyNotice'
     ).innerHTML = `<p>No car has been reserved.</p><button class = redirect onclick = redirect()><span>Continue Selection</span></button>`;
   }
   // check input value
   let isValidate = true;
   let isExceeded = true;
-  $("input").each(function () {
-    if ($(this).val() <= 0 || $(this).val() == "") {
+  $('input').each(function () {
+    if ($(this).val() <= 0 || $(this).val() == '') {
       isValidate = false;
     }
     if ($(this).val() > 100) {
@@ -243,16 +246,16 @@ function processCheckOut() {
     }
   });
   if (!isValidate) {
-    alert("Please enter validate amount.");
+    alert('Please enter validate amount.');
     return;
   }
   if (!isExceeded) {
-    alert("Sorry, the maximum is 100.");
+    alert('Sorry, the maximum is 100.');
     return;
   }
 
   // get the amount of total cost
-  let checkOutInfo = $("#reservationForm").serializeArray();
+  let checkOutInfo = $('#reservationForm').serializeArray();
   totalCost = checkOutInfo.reduce(function (accumulator, currentCar) {
     return (accumulator +=
       parseInt(Object.values(currentCar)[0]) *
@@ -356,64 +359,64 @@ function processCheckOut() {
         </div>
       </div>
       
-      <div class="row">
+      <div class="rowTwo">
         <h3>You are required to pay $${totalCost}</h3>
       </div>
     </form>
 
-    <div class="row">
+    <div class="rowThree">
       <button id = booking onclick = processBooking()><span>Booking</span></button>
       <button id = continue onclick = redirect()><span>Continue Selection</span></button>
     </div>
 
   </div>
   `;
-  document.getElementById("firstContainer").innerHTML = displayHTML;
+  document.getElementById('firstContainer').innerHTML = displayHTML;
 }
 
 function processBooking() {
   // validate input
-  if ($("#fname").val() == "") {
-    alert("Please enter your first name.");
+  if ($('#fname').val() == '') {
+    alert('Please enter your first name.');
     return;
   }
 
-  if ($("#lname").val() == "") {
-    alert("Please enter your last name.");
+  if ($('#lname').val() == '') {
+    alert('Please enter your last name.');
     return;
   }
 
-  let email = $("#email").val();
+  let email = $('#email').val();
   let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   if (regexEmail.test(email) == false) {
-    alert("Wrong email address.");
+    alert('Wrong email address.');
     return;
   }
 
-  if ($("#addressOne").val() == "") {
-    alert("Please enter your address.");
+  if ($('#addressOne').val() == '') {
+    alert('Please enter your address.');
     return;
   }
 
-  if ($("#city").val() == "") {
-    alert("Please enter your city.");
+  if ($('#city').val() == '') {
+    alert('Please enter your city.');
     return;
   }
 
-  if ($("#postcode").val() == "") {
-    alert("Please enter your post code.");
+  if ($('#postcode').val() == '') {
+    alert('Please enter your post code.');
     return;
   }
   fetch(`${server}/clearcart`);
-  let bookingInfo = $("#checkoutForm").serializeArray();
+  let bookingInfo = $('#checkoutForm').serializeArray();
   let displayHTML = `
   <div id = bookingInfo>
-    <h3>Hi ${bookingInfo[0]["value"]}, your booking has been received.</h3>
+    <h3>Hi ${bookingInfo[0]['value']}, your booking has been received.</h3>
     <h3>Below is your booking information:</h3>
     <table id=bookingTable>
       <tr>
         <th>Address</th>
-        <td>${bookingInfo[3]["value"]} ${bookingInfo[4]["value"]} ${bookingInfo[5]["value"]} ${bookingInfo[6]["value"]} ${bookingInfo[7]["value"]}</td>   
+        <td>${bookingInfo[3]['value']} ${bookingInfo[4]['value']} ${bookingInfo[5]['value']} ${bookingInfo[6]['value']} ${bookingInfo[7]['value']}</td>   
       </tr>
       
       <tr>
@@ -423,12 +426,13 @@ function processBooking() {
 
       <tr>
         <th>Payment</th>
-        <td>${bookingInfo[8]["value"]}</td>   
+        <td>${bookingInfo[8]['value']}</td>   
       </tr>
     </table>
     <h3>Have a good day.</h3>
   </div>
+  <button class = redirect onclick = redirect()><span>Back to Homepage</span></button>
   `;
 
-  document.getElementById("firstContainer").innerHTML = displayHTML;
+  document.getElementById('firstContainer').innerHTML = displayHTML;
 }

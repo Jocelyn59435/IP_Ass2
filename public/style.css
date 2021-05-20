@@ -1,6 +1,6 @@
 :root {
-  --font-title: "Noto Sans JP", sans-serif;
-  --font-subtitle: "Playfair Display", serif;
+  --font-title: 'Noto Sans JP', sans-serif;
+  --font-subtitle: 'Playfair Display', serif;
   --background: #1a508b;
   --hover: #d6e4f0;
   --text: #f6f5f5;
@@ -179,10 +179,10 @@ nav button:hover {
   width: 8rem;
 }
 
-#reservationForm input{
-    width: 50%;
-    text-align: center;
-  }
+#reservationForm input {
+  width: 50%;
+  text-align: center;
+}
 
 #reservationForm button {
   background: var(--background);
@@ -213,14 +213,14 @@ nav button:hover {
   margin-right: 5%;
 }
 
-#checkOut span{
+#checkOut span {
   text-align: center;
 }
 
-#emptyNotice p{
-    font-family: var(--font-subtitle);
-    font-size: 1.2rem;
-    padding: 3rem;
+#emptyNotice p {
+  font-family: var(--font-subtitle);
+  font-size: 1.2rem;
+  padding: 3rem;
 }
 
 /* checkoutForm */
@@ -229,7 +229,14 @@ nav button:hover {
   box-sizing: border-box;
 }
 
-.container input, select{
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container input,
+select {
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;
@@ -239,47 +246,47 @@ nav button:hover {
 
 label {
   padding: 12px 12px 12px 0;
-  display: inline-block;
 }
 
 .container {
+  min-height: 90%;
   border-radius: 5px;
   background-color: #f2f2f2;
   padding: 20px;
+  overflow: auto;
+  width: 100%;
 }
 
 .col-25 {
-  float: left;
   width: 25%;
   margin-top: 6px;
 }
 
 .col-75 {
-  float: left;
   width: 75%;
   margin-top: 6px;
 }
 
-.required{
+.required {
   color: red;
 }
 
-.container button{
+.container button {
   background: var(--background);
   border-radius: 20px;
   cursor: pointer;
   color: var(--text);
   border: 2px solid var(--background);
   font-size: 1rem;
-  float: right;
   min-height: 100%;
+  float: right;
 }
 
-#continue{
+#continue {
   margin-right: 1rem;
 }
 
-.redirect{
+.redirect {
   background: var(--background);
   border-radius: 20px;
   cursor: pointer;
@@ -291,17 +298,12 @@ label {
   margin-right: 2rem;
 }
 
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
+.rowTwo {
+  display: flex;
 }
 
-
 /* bookingTable */
-
-#bookingTable{
+#bookingTable {
   padding: 1.5rem;
   width: 100%;
   text-align: center;
@@ -310,7 +312,7 @@ label {
   font-family: var(--font-title);
 }
 
-#bookingInfo{
+#bookingInfo {
   padding: 1.5rem;
 }
 
