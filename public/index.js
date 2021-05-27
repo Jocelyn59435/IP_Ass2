@@ -182,9 +182,10 @@ function renderReservation(JSONobject) {
       car['Model Year']
     }</td>
                         <td>${car['Price per day']}</td>
-                        <td><input type = "number" name = "${
+                        <td><input type = "number"  min = 0 name = "${
                           car['Price per day'].split('$')[1]
-                        }" ></td>
+                        }" oninput="this.value = 
+                        !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null"></td>
                         <td><button onclick = processDelete(${
                           car.id
                         }) ><span>Delete</span></button></td>
